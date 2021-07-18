@@ -14,6 +14,7 @@
 	/**
 	* Get port from environment and store in Express.
 	*/
+	console.log(process.env)
 	const port = normalizePort(process.env.PORT || "8001"),
 		app = require("./app");
 	app.set("port", port);
