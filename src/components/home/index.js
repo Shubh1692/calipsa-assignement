@@ -68,9 +68,6 @@ export default {
           this.table.isLoading = false;
           this.table.totalRecordCount = total;
           this.table.rows = alarms;
-          console.log('response', {
-            total, alarms
-          });
         }
       } catch (error) {
         alert(error);

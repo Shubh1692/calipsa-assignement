@@ -9,12 +9,11 @@
 		util = require("util"),
 		{ environment = "dev" } = argv,
 		copyFile = util.promisify(fs.copyFile);
-	await copyFile(`${__dirname}/${environment}.env`, `${__dirname.replace('backend', '')}/.env`);
+	await copyFile(`${__dirname}/${environment}.env`, `${__dirname.replace('server', '')}/.env`);
 	require("dotenv").config();
 	/**
 	* Get port from environment and store in Express.
 	*/
-	console.log(process.env)
 	const port = normalizePort(process.env.PORT || "8001"),
 		app = require("./app");
 	app.set("port", port);

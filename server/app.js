@@ -2,20 +2,30 @@
 	const express = require("express"),
 		morganBody = require('morgan-body'),
 		fs = require("fs"),
-		bodyParser = require('body-parser'),
 		indexRouter = require("./routes/index"),
 		cors = require("cors"),
 		swaggerJSDoc = require("swagger-jsdoc"),
 		swaggerOptions = require("./config/swaggerDef"),
 		swaggerUi = require("swagger-ui-express"),
 		path = require("path"),
+		allowedOrigins =  (process.env.ALLOWED_ORIGINS || '').split(',');
 		// Express app instance
 		app = express();
 	const swaggerSpec = swaggerJSDoc(swaggerOptions);
-	app.use(bodyParser.json());
-	app.use(bodyParser.urlencoded({ extended: false }));
+	app.use(express.json());
+	app.use(express.urlencoded({ extended: false }));
 	//To allow cross-origin requests
-	app.use(cors());
+	app.use(cors({
+		origin:  (origin, callback) => {
+			if (!origin) return callback(null, true);
+			if (allowedOrigins.indexOf(origin) === -1) {
+				const msg = 'The CORS policy for this site does not ' +
+					'allow access from the specified Origin.';
+				return callback(new Error(msg), false);
+			}
+			return callback(null, true);
+		}
+	}));
 	morganBody(app, {
 		noColors: true,
 		stream: fs.createWriteStream(path.join(__dirname, "/logs/info.log"), { flags: "a" }),
