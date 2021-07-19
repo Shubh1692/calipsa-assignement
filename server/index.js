@@ -11,6 +11,11 @@
 		copyFile = util.promisify(fs.copyFile);
 	await copyFile(`${__dirname}/${environment}.env`, `${__dirname.replace('server', '')}/.env`);
 	require("dotenv").config();
+	try {
+		await fs.accessSync('./server/logs');
+	} catch (error) {
+		await fs.mkdirSync('./server/logs');
+	}
 	/**
 	* Get port from environment and store in Express.
 	*/
