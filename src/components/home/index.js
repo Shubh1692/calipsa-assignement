@@ -62,7 +62,7 @@ export default {
             }
           }} = await axios({
             method: "POST",
-            url: `http://localhost:8001/api/data/`,
+            url: `${window.location.origin}/api/data/`,
             data: this.filter,
           });
           this.table.isLoading = false;
